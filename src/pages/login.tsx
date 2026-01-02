@@ -6,7 +6,7 @@ import img from "../assets/Logo Unand.png";
 import "../index.css";
 import "../styles/login.css";
 import { useState } from "react";
-import { AuthService } from "../services/auth.service";
+import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
@@ -15,6 +15,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,20 +30,11 @@ export default function LoginPage() {
         return;
       }
 
-      const response = await AuthService.login(username, password);
+      await login(username, password);
 
-      console.log("Login berhasil:", response);
-
-      const userData = AuthService.getUserData();
-
-
-      if (userData?.role === "kadep") {
-        navigate("/home");
-      } else if (userData?.role === "dosen") {
-        navigate("/home");
-      } else {
-        navigate("/home");
-      }
+      // After login, user should be available from context
+      // Navigate based on role (or just go to home)
+      navigate("/home");
     } catch (err: any) {
 
       console.error("Login error:", err);
