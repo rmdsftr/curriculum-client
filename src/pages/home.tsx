@@ -1,36 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Table, { type Column } from '../components/table';
+import { KurikulumService, type Kurikulum } from '../services/kurikulum.service';
 import '../styles/home.css';
 
-interface KurikulumData {
+interface KurikulumTableData {
     no: number;
+    id_kurikulum: number;
     namaKurikulum: string;
     revisi: string;
     status: 'Aktif' | 'Nonaktif';
 }
 
 const Home: React.FC = () => {
+    const [kurikulumData, setKurikulumData] = useState<KurikulumTableData[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    const kurikulumData: KurikulumData[] = [
-        {
-            no: 1,
-            namaKurikulum: 'Kurikulum Departemen Sistem Informasi 2025',
-            revisi: 'Revisi 01',
-            status: 'Aktif'
-        },
-        {
-            no: 2,
-            namaKurikulum: 'Kurikulum Departemen Sistem Informasi 2024',
-            revisi: 'Revisi 02',
-            status: 'Nonaktif'
-        },
-        {
-            no: 3,
-            namaKurikulum: 'Kurikulum Departemen Sistem Informasi 2023',
-            revisi: 'Revisi 03',
-            status: 'Nonaktif'
-        }
-    ];
+    // Fetch kurikulum data from API
+    useEffect(() => {
+        const fetchKurikulum = async () => {
+            try {
+                setLoading(true);
+                const response = await KurikulumService.getAll();
+
+                // Transform data untuk tabel
+                const tableData: KurikulumTableData[] = response.data.map((item: Kurikulum, index: number) => ({
+                    no: index + 1,
+                    id_kurikulum: item.id_kurikulum,
+                    namaKurikulum: item.nama_kurikulum,
+                    revisi: item.revisi,
+                    status: item.status_kurikulum
+                }));
+
+                setKurikulumData(tableData);
+                setError(null);
+            } catch (err: any) {
+                console.error('Error fetching kurikulum:', err);
+                setError('Gagal memuat data kurikulum');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchKurikulum();
+    }, []);
 
     const columns: Column[] = [
         {
@@ -80,6 +93,23 @@ const Home: React.FC = () => {
             )
         }
     ];
+
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <p>Memuat data...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="error-container">
+                <p>{error}</p>
+                <button onClick={() => window.location.reload()}>Coba Lagi</button>
+            </div>
+        );
+    }
 
     return (
         <>

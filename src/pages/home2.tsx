@@ -1,6 +1,7 @@
 // pages/SecondHome.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Table, { type Column } from '../components/table';
+import { MatkulService } from '../services/matkul.service';
 import '../styles/home.css';
 
 interface MataKuliahData {
@@ -13,59 +14,38 @@ interface MataKuliahData {
 }
 
 const SecondHome: React.FC = () => {
-    const mataKuliahData: MataKuliahData[] = [
-        {
-            no: 1,
-            mataKuliah: 'Algoritma dan Pemrograman',
-            kode: 'MK-001',
-            sks: 3,
-            semester: 1,
-            cpl: [
-                'Mampu mengambil keputusan secara tepat dalam konteks penyelesaian masalah di bidang teknologi informasi',
-                'Mampu mengambil keputusan secara tepat dalam konteks penyelesaian masalah di bidang teknologi informasi'
-            ]
-        },
-        {
-            no: 2,
-            mataKuliah: 'Algoritma dan Pemrograman',
-            kode: 'MK-001',
-            sks: 3,
-            semester: 1,
-            cpl: [
-                'Mampu mengambil keputusan secara tepat dalam konteks penyelesaian masalah di bidang teknologi informasi'
-            ]
-        },
-        {
-            no: 3,
-            mataKuliah: 'Algoritma dan Pemrograman',
-            kode: 'MK-001',
-            sks: 3,
-            semester: 1,
-            cpl: [
-                'Mampu mengambil keputusan secara tepat dalam konteks penyelesaian masalah di bidang teknologi informasi'
-            ]
-        },
-        {
-            no: 4,
-            mataKuliah: 'Algoritma dan Pemrograman',
-            kode: 'MK-001',
-            sks: 3,
-            semester: 1,
-            cpl: [
-                'Mampu mengambil keputusan secara tepat dalam konteks penyelesaian masalah di bidang teknologi informasi'
-            ]
-        },
-        {
-            no: 5,
-            mataKuliah: 'Algoritma dan Pemrograman',
-            kode: 'MK-001',
-            sks: 3,
-            semester: 1,
-            cpl: [
-                'Mampu mengambil keputusan secara tepat dalam konteks penyelesaian masalah di bidang teknologi informasi'
-            ]
+    const [mataKuliahData, setMataKuliahData] = useState<MataKuliahData[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string>('');
+
+    useEffect(() => {
+        fetchMataKuliah();
+    }, []);
+
+    const fetchMataKuliah = async () => {
+        try {
+            setLoading(true);
+            setError('');
+            const response = await MatkulService.getAll();
+
+            // Map data dari backend ke format tabel
+            const formattedData: MataKuliahData[] = response.data.map((matkul, index) => ({
+                no: index + 1,
+                mataKuliah: matkul.mata_kuliah,
+                kode: matkul.id_matkul,
+                sks: matkul.sks,
+                semester: matkul.semester,
+                cpl: matkul.cpl.map(c => c.deskripsi)
+            }));
+
+            setMataKuliahData(formattedData);
+        } catch (err: any) {
+            console.error('Error fetching mata kuliah:', err);
+            setError(err.response?.data?.detail || 'Gagal mengambil data mata kuliah');
+        } finally {
+            setLoading(false);
         }
-    ];
+    };
 
     const columns: Column[] = [
         {
@@ -134,7 +114,26 @@ const SecondHome: React.FC = () => {
                 <span className="plus-icon">+</span>
                 Tambah Mata Kuliah
             </button>
-            <Table columns={columns} data={mataKuliahData} />
+
+            {loading && (
+                <div style={{ textAlign: 'center', padding: '20px' }}>
+                    <p>Memuat data mata kuliah...</p>
+                </div>
+            )}
+
+            {error && (
+                <div style={{
+                    color: 'red',
+                    padding: '10px',
+                    margin: '10px 0',
+                    backgroundColor: '#ffe6e6',
+                    borderRadius: '5px'
+                }}>
+                    {error}
+                </div>
+            )}
+
+            {!loading && !error && <Table columns={columns} data={mataKuliahData} />}
         </>
     );
 };
