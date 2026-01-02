@@ -114,7 +114,7 @@ const FormCpl: React.FC = () => {
                                 onChange={(e) => setKodeCpl(e.target.value)}
                                 disabled={isEdit}
                             />
-                            <div className="code-guide">Contoh: CPL-01 atau CPL-A1</div>
+                            <div className="code-guide">Contoh: CPL-01</div>
                         </div>
                     </div>
 
