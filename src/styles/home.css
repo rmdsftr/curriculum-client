@@ -1,0 +1,60 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+.content {
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem 5rem 5rem 5rem;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+}
+
+.table-header {
+    display: flex;
+    width: 100%;
+}
+
+.add-button {
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 0.75rem;
+    background-color: #4f6bb6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 25px;
+}
+
+.add-button:hover {
+    background-color: #3d5494;
+}
+
+.plus-icon {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 1rem;
+    }
+
+    .table-header {
+        justify-content: center;
+    }
+}

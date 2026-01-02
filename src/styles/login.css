@@ -2,13 +2,13 @@
     min-height: 100vh;
     width: 100%;
     background-color: #D0DBE5;
-    display: flex;              
-    justify-content: center;   
+    display: flex;
+    justify-content: center;
     align-items: center;
     padding: 20px;
 }
 
-.content {
+.login-content {
     background-color: white;
     padding: 40px;
     border-radius: 20px;
@@ -16,25 +16,24 @@
     align-items: center;
     justify-content: center;
     gap: 50px;
-    width: 100%;
-    max-width: 700px;
+    width: 700px;
     min-height: 400px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.content > div:first-child {
+.login-content>div:first-child {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.content img {
+.login-content img {
     max-width: 200px;
     width: 100%;
     height: auto;
 }
 
-.error-message{
+.error-message {
     color: red;
     font-size: 12px;
 }

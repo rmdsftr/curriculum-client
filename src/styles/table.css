@@ -1,0 +1,160 @@
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.custom-table thead {
+    background-color: #8fa4d1;
+}
+
+.custom-table thead tr th {
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #1f2937;
+    border-right: 1px solid #b5c4e0;
+}
+
+.custom-table thead tr th:last-child {
+    border-right: none;
+}
+
+.custom-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.custom-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.custom-table tbody tr td {
+    padding: 1.25rem 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #374151;
+    vertical-align: middle;
+    border-right: 1px solid #e5e7eb;
+}
+
+.custom-table tbody tr td:last-child {
+    border-right: none;
+}
+
+.custom-table tbody tr td:first-child {
+    font-weight: 500;
+}
+
+/* Status badges */
+.status-badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.status-aktif {
+    background-color: #4ade80;
+    color: white;
+}
+
+.status-nonaktif {
+    background-color: #ef4444;
+    color: white;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+
+.action-button:hover {
+    opacity: 0.8;
+}
+
+.action-button.edit {
+    background-color: #10b981;
+}
+
+.action-button.download {
+    background-color: #eab308;
+}
+
+.action-button.delete {
+    background-color: #ef4444;
+}
+
+.action-button svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+}
+
+/* CPL List */
+.cpl-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+    padding: 0.5rem 0;
+}
+
+.cpl-item {
+    padding: 0.75rem 1rem;
+    background-color: #f3f4f6;
+    border-radius: 4px;
+    font-size: 0.813rem;
+    line-height: 1.5;
+    color: #374151;
+    border-left: 3px solid #8fa4d1;
+}
+
+@media (max-width: 768px) {
+    .custom-table {
+        font-size: 0.75rem;
+    }
+
+    .custom-table thead tr th,
+    .custom-table tbody tr td {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .status-badge {
+        padding: 0.375rem 1rem;
+        font-size: 0.75rem;
+    }
+
+    .action-button {
+        width: 32px;
+        height: 32px;
+    }
+}

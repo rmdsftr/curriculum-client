@@ -7,7 +7,7 @@ import "../index.css";
 import "../styles/login.css";
 import { useState } from "react";
 import { AuthService } from "../services/auth.service";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -22,7 +22,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      
+
       if (!username || !password) {
         setError("Username dan password harus diisi");
         setLoading(false);
@@ -34,8 +34,8 @@ export default function LoginPage() {
       console.log("Login berhasil:", response);
 
       const userData = AuthService.getUserData();
-      
-      
+
+
       if (userData?.role === "kadep") {
         navigate("/home");
       } else if (userData?.role === "dosen") {
@@ -44,9 +44,9 @@ export default function LoginPage() {
         navigate("/home");
       }
     } catch (err: any) {
-      
+
       console.error("Login error:", err);
-      
+
       if (err.response?.status === 401) {
         setError("Username atau password salah");
       } else if (err.response?.data?.detail) {
@@ -61,7 +61,7 @@ export default function LoginPage() {
 
   return (
     <div className="container">
-      <div className="content">
+      <div className="login-content">
         <div>
           <img src={img} alt="Logo Unand" width={200} />
         </div>
@@ -80,7 +80,7 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
             disabled={loading}
           />
-          
+
           {error && (
             <div className="error-message">
               {error}
