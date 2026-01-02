@@ -27,6 +27,18 @@ export interface KurikulumDetailResponse {
     };
 }
 
+export interface CreateKurikulumRequest {
+    nama_kurikulum: string;
+    revisi?: string;
+    status_kurikulum: 'aktif' | 'nonaktif';
+}
+
+export interface UpdateKurikulumRequest {
+    nama_kurikulum?: string;
+    revisi?: string;
+    status_kurikulum?: 'aktif' | 'nonaktif';
+}
+
 export const KurikulumService = {
     // Get all kurikulum
     getAll: async (): Promise<KurikulumListResponse> => {
@@ -43,6 +55,29 @@ export const KurikulumService = {
     getDetail: async (id_kurikulum: string): Promise<KurikulumDetailResponse> => {
         const token = AuthService.getToken();
         const response = await api.get<KurikulumDetailResponse>(`/kurikulum/${id_kurikulum}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data;
+    },
+
+    // Create kurikulum
+    create: async (data: CreateKurikulumRequest) => {
+        const token = AuthService.getToken();
+        const response = await api.post('/kurikulum/', data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data;
+    },
+
+    // Update kurikulum
+    update: async (id_kurikulum: string, data: UpdateKurikulumRequest) => {
+        const token = AuthService.getToken();
+        // Use PATCH to follow existing patterns in other services
+        const response = await api.patch(`/kurikulum/${id_kurikulum}`, data, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

@@ -6,6 +6,8 @@ import MainLayout from "./components/MainLayout"
 import Matkul from "./pages/matkul"
 import KurikulumPage from "./pages/kurikulum"
 import CplPage from "./pages/cpl"
+import TambahKurikulum from "./pages/tambahKurikulum"
+import EditKurikulum from "./pages/editKurikulum"
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <Route path="/" element={<LoginPage />} />
       <Route element={<MainLayout />}>
         <Route path="home" element={<Homepage />} />
+        <Route path="home/tambah" element={<TambahKurikulum />} />
+        <Route path="home/:id/edit" element={<EditKurikulum />} />
         <Route path="home2" element={<SecondHome />} />
         <Route path="matkul" element={<Matkul />} />
         <Route path="home/:id" element={<KurikulumPage />} />
