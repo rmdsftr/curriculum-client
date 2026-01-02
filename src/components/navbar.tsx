@@ -18,7 +18,7 @@ const Navbar: React.FC<NavbarProps> = ({
     const navigate = useNavigate();
     const location = useLocation();
     const { user } = useAuth();
-    const activeTab = location.pathname === '/home2' ? 'mataKuliah' : 'kurikulum';
+    const activeTab = (location.pathname === '/home2' || location.pathname === '/matkul') ? 'mataKuliah' : 'kurikulum';
 
     // Format role untuk display
     const formatRole = (role: string | undefined) => {

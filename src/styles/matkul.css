@@ -1,0 +1,191 @@
+.matkul-container {
+    min-height: 100vh;
+    padding: 24px;
+}
+
+.btn-kembali {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #3b5998;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 24px;
+    transition: background-color 0.2s;
+}
+
+.btn-kembali:hover {
+    background-color: #2d4373;
+}
+
+.arrow-icon {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.form-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.form-title {
+    color: #3b5998;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 32px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group-full {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.form-label {
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.form-input {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.form-input:focus {
+    border-color: #3b5998;
+}
+
+.form-input::placeholder {
+    color: #999;
+}
+
+.cpl-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cpl-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.cpl-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fafafa;
+    color: #666;
+    cursor: default;
+}
+
+.cpl-checkbox {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+    transition: all 0.2s;
+}
+
+.cpl-checkbox:hover {
+    border-color: #3b5998;
+}
+
+.cpl-checkbox.selected {
+    background-color: #4ade80;
+    border-color: #4ade80;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 32px;
+}
+
+.btn-simpan {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #4ade80;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-simpan:hover {
+    background-color: #22c55e;
+}
+
+.save-icon {
+    font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .matkul-container {
+        padding: 16px;
+    }
+
+    .form-card {
+        padding: 24px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .form-title {
+        font-size: 20px;
+    }
+}

@@ -1,7 +1,8 @@
-// pages/SecondHome.tsx
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Table, { type Column } from '../components/table';
 import { MatkulService } from '../services/matkul.service';
+import { useAuth } from '../contexts/AuthContext';
 import '../styles/home.css';
 
 interface MataKuliahData {
@@ -14,9 +15,15 @@ interface MataKuliahData {
 }
 
 const SecondHome: React.FC = () => {
+    const navigate = useNavigate();
+    const { user } = useAuth();
     const [mataKuliahData, setMataKuliahData] = useState<MataKuliahData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>('');
+    const [deleting, setDeleting] = useState<string | null>(null);
+
+    const isKadep = user?.role === 'kadep';
+    const canEdit = user?.role === 'kadep' || user?.role === 'dosen';
 
     useEffect(() => {
         fetchMataKuliah();
@@ -44,6 +51,24 @@ const SecondHome: React.FC = () => {
             setError(err.response?.data?.detail || 'Gagal mengambil data mata kuliah');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDelete = async (kode: string) => {
+        if (!window.confirm(`Apakah Anda yakin ingin menghapus mata kuliah dengan kode ${kode}?`)) {
+            return;
+        }
+
+        try {
+            setDeleting(kode);
+            await MatkulService.delete(kode);
+            // Refresh data setelah berhasil menghapus
+            await fetchMataKuliah();
+        } catch (err: any) {
+            console.error('Error deleting mata kuliah:', err);
+            alert(err.response?.data?.detail || 'Gagal menghapus mata kuliah');
+        } finally {
+            setDeleting(null);
         }
     };
 
@@ -91,18 +116,35 @@ const SecondHome: React.FC = () => {
             key: 'aksi',
             header: 'Aksi',
             width: '100px',
-            render: () => (
+            render: (_value: unknown, row: MataKuliahData) => (
                 <div className="action-buttons">
-                    <button className="action-button edit" title="Edit">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                        </svg>
-                    </button>
-                    <button className="action-button delete" title="Delete">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                        </svg>
-                    </button>
+                    {canEdit && (
+                        <button
+                            className="action-button edit"
+                            title="Edit"
+                            onClick={() => navigate(`/matkul?id=${row.kode}`)}
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                            </svg>
+                        </button>
+                    )}
+                    {isKadep && (
+                        <button
+                            className="action-button delete"
+                            title="Delete"
+                            onClick={() => handleDelete(row.kode)}
+                            disabled={deleting === row.kode}
+                        >
+                            {deleting === row.kode ? (
+                                <span>...</span>
+                            ) : (
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                </svg>
+                            )}
+                        </button>
+                    )}
                 </div>
             )
         }
@@ -110,7 +152,7 @@ const SecondHome: React.FC = () => {
 
     return (
         <>
-            <button className="add-button">
+            <button className="add-button" onClick={() => navigate('/matkul')}>
                 <span className="plus-icon">+</span>
                 Tambah Mata Kuliah
             </button>

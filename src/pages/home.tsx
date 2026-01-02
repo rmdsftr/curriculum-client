@@ -5,10 +5,10 @@ import '../styles/home.css';
 
 interface KurikulumTableData {
     no: number;
-    id_kurikulum: number;
+    id_kurikulum: string;
     namaKurikulum: string;
     revisi: string;
-    status: 'Aktif' | 'Nonaktif';
+    status: 'aktif' | 'nonaktif';
 }
 
 const Home: React.FC = () => {
