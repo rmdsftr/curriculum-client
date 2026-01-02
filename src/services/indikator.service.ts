@@ -7,6 +7,8 @@ export interface Indikator {
 }
 
 export interface IndikatorDetailResponse {
+    id_kurikulum: string;
+    id_cpl: string;
     id_indikator: string;
     deskripsi: string;
 }
@@ -17,40 +19,57 @@ export interface CreateIndikatorRequest {
 }
 
 export interface UpdateIndikatorRequest {
+    id_cpl?: string;
     deskripsi?: string;
 }
 
 export const IndikatorService = {
     // Create indikator under a CPL
-    // Endpoint: POST /cpl/{id_kurikulum}/{id_cpl}/indikator
+    // Backend endpoint: POST /indikator/{id_kurikulum}/{id_cpl}
     create: async (id_kurikulum: string, id_cpl: string, data: CreateIndikatorRequest) => {
         const token = AuthService.getToken();
-        const response = await api.post(`/cpl/${id_kurikulum}/${id_cpl}/indikator`, data, {
+        const response = await api.post(`/indikator/${id_kurikulum}/${id_cpl}`, data, {
             headers: { Authorization: `Bearer ${token}` }
         });
         return response.data;
     },
 
-    // Get indikator detail
-    // Endpoint: GET /cpl/{id_kurikulum}/{id_cpl}/indikator/{id_indikator}
+    // Get indikator detail - uses CPL detail endpoint and filters
+    // Note: Backend doesn't have a dedicated GET endpoint for single indikator,
+    // so we get all indikators from CPL and filter
     getDetail: async (id_kurikulum: string, id_cpl: string, id_indikator: string): Promise<IndikatorDetailResponse> => {
         const token = AuthService.getToken();
-        const response = await api.get<IndikatorDetailResponse>(
-            `/cpl/${id_kurikulum}/${id_cpl}/indikator/${id_indikator}`, 
+        // Use the CPL detail endpoint which includes indikator list
+        const response = await api.get(
+            `/cpl/${id_kurikulum}/${id_cpl}`,
             {
                 headers: { Authorization: `Bearer ${token}` }
             }
         );
-        return response.data;
+
+        // Find the specific indikator from the list
+        const indikatorList = response.data.indikator || [];
+        const found = indikatorList.find((ind: any) => ind.id_indikator === id_indikator);
+
+        if (!found) {
+            throw new Error('Indikator tidak ditemukan');
+        }
+
+        return {
+            id_kurikulum: id_kurikulum,
+            id_cpl: id_cpl,
+            id_indikator: found.id_indikator,
+            deskripsi: found.deskripsi
+        };
     },
 
     // Update indikator
-    // Endpoint: PATCH /cpl/{id_kurikulum}/{id_cpl}/indikator/{id_indikator}
+    // Backend endpoint: PATCH /indikator/{id_kurikulum}/{id_cpl}/{id_indikator}
     update: async (id_kurikulum: string, id_cpl: string, id_indikator: string, data: UpdateIndikatorRequest) => {
         const token = AuthService.getToken();
         const response = await api.patch(
-            `/cpl/${id_kurikulum}/${id_cpl}/indikator/${id_indikator}`, 
-            data, 
+            `/indikator/${id_kurikulum}/${id_cpl}/${id_indikator}`,
+            data,
             {
                 headers: { Authorization: `Bearer ${token}` }
             }
@@ -59,11 +78,11 @@ export const IndikatorService = {
     },
 
     // Delete indikator
-    // Endpoint: DELETE /cpl/{id_kurikulum}/{id_cpl}/indikator/{id_indikator}
+    // Backend endpoint: DELETE /indikator/{id_kurikulum}/{id_cpl}/{id_indikator}
     delete: async (id_kurikulum: string, id_cpl: string, id_indikator: string) => {
         const token = AuthService.getToken();
         const response = await api.delete(
-            `/cpl/${id_kurikulum}/${id_cpl}/indikator/${id_indikator}`, 
+            `/indikator/${id_kurikulum}/${id_cpl}/${id_indikator}`,
             {
                 headers: { Authorization: `Bearer ${token}` }
             }
