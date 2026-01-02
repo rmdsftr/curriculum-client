@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Table, { type Column } from '../components/table';
 import { KurikulumService, type Kurikulum } from '../services/kurikulum.service';
 import '../styles/home.css';
+import { useAuth } from '../contexts/AuthContext';
 
 interface KurikulumTableData {
     no: number;
@@ -16,6 +17,9 @@ const Home: React.FC = () => {
     const [kurikulumData, setKurikulumData] = useState<KurikulumTableData[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const { user } = useAuth();
+    const isKadep = user?.role === 'kadep';
 
     // Fetch kurikulum data from API
     useEffect(() => {
@@ -79,14 +83,16 @@ const Home: React.FC = () => {
             width: '140px',
             render: (_value: any, row: any) => (
                 <div className="action-buttons">
-                    <Link to={`/home/${row.id_kurikulum}/edit`} className="action-button edit" title="Edit">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                        </svg>
-                    </Link>
+                    {isKadep && (
+                        <Link to={`/home/${row.id_kurikulum}/edit`} className="action-button edit" title="Edit">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                            </svg>
+                        </Link>
+                    )}
                     <Link to={`/home/${row.id_kurikulum}`} className="action-button download" title="Detail">
                         <svg viewBox="0 0 24 24">
-                            <path d="M11 7h2v2h-2V7zm0 4h2v6h-2v-6zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                            <path d="M11 7h2v2h-2V7zm0 4h2v6h-2v-6zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
                         </svg>
                     </Link>
                 </div>
@@ -113,10 +119,12 @@ const Home: React.FC = () => {
 
     return (
         <>
-            <Link to="/home/tambah" className="add-button">
-                <span className="plus-icon">+</span>
-                Tambah Kurikulum
-            </Link>
+            {isKadep && (
+                <Link to="/home/tambah" className="add-button">
+                    <span className="plus-icon">+</span>
+                    Tambah Kurikulum
+                </Link>
+            )}
             <Table columns={columns} data={kurikulumData} />
         </>
     );

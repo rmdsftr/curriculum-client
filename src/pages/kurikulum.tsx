@@ -5,6 +5,7 @@ import { KurikulumService, type Kurikulum, type CPLInKurikulum } from '../servic
 import { CPLService } from '../services/cpl.service';
 import '../styles/kurikulum.css';
 import '../styles/home.css';
+import { useAuth } from '../contexts/AuthContext';
 
 interface CplTableRow {
     no: number;
@@ -18,6 +19,9 @@ const KurikulumPage: React.FC = () => {
     const [kurikulum, setKurikulum] = useState<(Kurikulum & { cpl?: CPLInKurikulum[] }) | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const { user } = useAuth();
+    const isKadep = user?.role === 'kadep';
 
     const fetchDetail = async () => {
         if (!id) {
@@ -94,15 +98,19 @@ const KurikulumPage: React.FC = () => {
             width: '180px',
             render: (_v: any, row: any) => (
                 <div className="action-buttons">
-                    <Link to={`/cpl?mode=edit&kurId=${kurikulum.id_kurikulum}&cplId=${row.id_cpl}`} className="action-button edit" title="Edit">
-                        <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-                    </Link>
+                    {isKadep && (
+                        <Link to={`/cpl?mode=edit&kurId=${kurikulum.id_kurikulum}&cplId=${row.id_cpl}`} className="action-button edit" title="Edit">
+                            <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" /></svg>
+                        </Link>
+                    )}
                     <Link to={`/home/${kurikulum.id_kurikulum}/${row.id_cpl}`} className="action-button download" title="Detail">
-                        <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2V7zm0 4h2v6h-2v-6zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2V7zm0 4h2v6h-2v-6zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" /></svg>
                     </Link>
-                    <button className="action-button delete" title="Hapus" onClick={() => handleDelete(row.id_cpl)}>
-                        <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                    </button>
+                    {isKadep && (
+                        <button className="action-button delete" title="Hapus" onClick={() => handleDelete(row.id_cpl)}>
+                            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" /></svg>
+                        </button>
+                    )}
                 </div>
             )
         }
@@ -134,9 +142,11 @@ const KurikulumPage: React.FC = () => {
                     <div className="detail-value"><span className={`status-badge status-${kurikulum.status_kurikulum}`}>{kurikulum.status_kurikulum}</span></div>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
-                    <Link to="/cpl" className="add-button">Tambah CPL</Link>
-                </div>
+                {isKadep && (
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
+                        <Link to="/cpl" className="add-button">Tambah CPL</Link>
+                    </div>
+                )}
 
                 {toast.visible && (
                     <div className={`toast ${toast.type === 'success' ? 'toast-success' : 'toast-error'}`}>
