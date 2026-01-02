@@ -1,0 +1,59 @@
+/* Styles specific to Kurikulum Detail page */
+
+.form-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.form-title {
+  color: #3b5998; /* blue like buttons */
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 200px 20px 1fr;
+  gap: 10px 20px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.detail-label {
+  text-align: left;
+  padding-right: 4px;
+  font-weight: 600;
+}
+
+.detail-colon {
+  text-align: center;
+}
+
+.detail-value {
+  text-align: left;
+  padding-bottom: 6px;
+}
+
+.status-badge.status-aktif {
+  background-color: #4ade80; /* green */
+  color: #ffffff;
+}
+
+.status-badge.status-nonaktif {
+  background-color: #ef4444; /* red */
+  color: #ffffff;
+}
+
+/* ensure the add-button uses existing styles from home.css; only position here */
+.kurikulum-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+/* remove plain status-text rules; use status-badge for consistency */
