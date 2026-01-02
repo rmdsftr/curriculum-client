@@ -57,3 +57,78 @@
 }
 
 /* remove plain status-text rules; use status-badge for consistency */
+
+/* Confirmation modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+
+.modal-box {
+  background: #ffffff;
+  padding: 20px 24px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.2);
+  max-width: 420px;
+  width: 90%;
+  text-align: left;
+}
+
+.modal-box h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.modal-box p {
+  margin: 0 0 16px 0;
+  color: #374151;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.btn-cancel {
+  background: #f3f4f6;
+  color: #111827;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-danger {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Toast (same styling as formCpl) */
+.form-card {
+  position: relative;
+}
+.toast {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  z-index: 40;
+  font-weight: 600;
+}
+.toast-success {
+  background-color: #16a34a;
+}
+.toast-error {
+  background-color: #ef4444;
+}

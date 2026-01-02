@@ -4,6 +4,7 @@ import Homepage from "./pages/home"
 import SecondHome from "./pages/home2"
 import MainLayout from "./components/MainLayout"
 import Matkul from "./pages/matkul"
+import FormCpl from "./pages/formCpl"
 import KurikulumPage from "./pages/kurikulum"
 import CplPage from "./pages/cpl"
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="home" element={<Homepage />} />
         <Route path="home2" element={<SecondHome />} />
         <Route path="matkul" element={<Matkul />} />
+        <Route path="cpl" element={<FormCpl />} />
         <Route path="home/:id" element={<KurikulumPage />} />
         <Route path="home/:id/:cplId" element={<CplPage />} />
       </Route>
